@@ -1,0 +1,116 @@
+{% extends "base.html" %}
+{% block title %}Home{% endblock %}
+
+{% block content %}
+
+<!-- ===== Hero section ===== -->
+<div class="hero-section mb-4">
+  <h1><i class="bi bi-people-fill me-2"></i>Friend Suggestion Engine</h1>
+  <p class="mb-0">
+    Discover new friends based on mutual connections in your social network.
+  </p>
+</div>
+
+<div class="row justify-content-center">
+  <div class="col-lg-6 col-md-8">
+
+    <!-- ===== Selection card ===== -->
+    <div class="card p-4">
+      <h5 class="card-title mb-3">
+        <i class="bi bi-person-circle me-2 text-primary"></i>
+        Select Your Profile
+      </h5>
+      <p class="text-muted small mb-4">
+        Choose a user from the dropdown below and click <strong>Find Friends</strong>
+        to see personalised recommendations based on mutual friends.
+      </p>
+
+      <!--
+        Form POSTs to /recommend.
+        The selected user's ID (e.g. "alice") is sent as `user_id`.
+      -->
+      <form action="{{ url_for('recommend') }}" method="POST">
+        <div class="mb-3">
+          <label for="user_id" class="form-label fw-semibold">
+            <i class="bi bi-person me-1"></i>Choose a user
+          </label>
+          <!-- users is a list of (user_id, profile_dict) tuples sorted by name -->
+          <select class="form-select" id="user_id" name="user_id" required>
+            <option value="" disabled selected>— Select a user —</option>
+            {% for user_id, profile in users %}
+            <option value="{{ user_id }}">
+              {{ profile.name }} (age {{ profile.age }})
+            </option>
+            {% endfor %}
+          </select>
+        </div>
+
+        <div class="d-grid">
+          <button type="submit" class="btn btn-primary btn-lg">
+            <i class="bi bi-search me-2"></i>Find Friends
+          </button>
+        </div>
+      </form>
+    </div>
+
+    <!-- ===== How it works — quick summary ===== -->
+    <div class="card mt-4 p-4">
+      <h6 class="fw-bold mb-3">
+        <i class="bi bi-lightbulb me-2 text-warning"></i>How does it work?
+      </h6>
+      <div class="row g-3 text-center">
+        <div class="col-4">
+          <div class="mb-2" style="font-size:2rem;">🕸️</div>
+          <small class="text-muted">Build a graph of all friendships</small>
+        </div>
+        <div class="col-4">
+          <div class="mb-2" style="font-size:2rem;">🔍</div>
+          <small class="text-muted">Find users not yet connected</small>
+        </div>
+        <div class="col-4">
+          <div class="mb-2" style="font-size:2rem;">🤝</div>
+          <small class="text-muted">Rank by mutual friend count</small>
+        </div>
+      </div>
+      <div class="text-center mt-3">
+        <a href="{{ url_for('about') }}" class="btn btn-outline-secondary btn-sm">
+          <i class="bi bi-info-circle me-1"></i>Learn more
+        </a>
+      </div>
+    </div>
+
+  </div>
+
+  <!-- ===== User list sidebar ===== -->
+  <div class="col-lg-4 col-md-8 mt-4 mt-lg-0">
+    <div class="card p-4">
+      <h6 class="fw-bold mb-3">
+        <i class="bi bi-people me-2 text-primary"></i>
+        All Users ({{ users | length }})
+      </h6>
+      <ul class="list-unstyled mb-0">
+        {% for user_id, profile in users %}
+        <li class="d-flex align-items-center py-2
+                   {% if not loop.last %}border-bottom{% endif %}">
+          <!-- Mini avatar using first letter of name -->
+          <div class="avatar-circle me-3"
+               style="width:36px;height:36px;font-size:1rem;
+                      background:linear-gradient(135deg,#667eea,#764ba2);">
+            {{ profile.name[0] }}
+          </div>
+          <div>
+            <div class="fw-semibold">{{ profile.name }}</div>
+            <small class="text-muted">
+              {% for interest in profile.interests[:2] %}
+                <span class="interest-tag">{{ interest }}</span>
+              {% endfor %}
+            </small>
+          </div>
+        </li>
+        {% endfor %}
+      </ul>
+    </div>
+  </div>
+
+</div>
+{% endblock %}

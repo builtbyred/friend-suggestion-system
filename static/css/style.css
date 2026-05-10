@@ -1,0 +1,208 @@
+/* ============================================================
+   style.css — Custom styles for the Friend Suggestion App
+   All Bootstrap classes are still used; these additions give
+   the app its own personality on top of the Bootstrap base.
+   ============================================================ */
+
+/* ----- Global ----- */
+body {
+  background-color: #f0f4f8;
+  font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+  color: #2d3748;
+  min-height: 100vh;
+}
+
+/* ----- Navbar ----- */
+.navbar {
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  box-shadow: 0 2px 12px rgba(102, 126, 234, 0.4);
+}
+
+.navbar-brand {
+  font-weight: 700;
+  font-size: 1.3rem;
+  letter-spacing: 0.5px;
+}
+
+.nav-link {
+  font-weight: 500;
+}
+
+/* ----- Cards ----- */
+.card {
+  border: none;
+  border-radius: 12px;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.card:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 8px 28px rgba(0, 0, 0, 0.13);
+}
+
+/* ----- Hero / Jumbotron area on home page ----- */
+.hero-section {
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  color: white;
+  border-radius: 16px;
+  padding: 3rem 2rem;
+  margin-bottom: 2rem;
+  text-align: center;
+  box-shadow: 0 6px 24px rgba(102, 126, 234, 0.35);
+}
+
+.hero-section h1 {
+  font-size: 2.4rem;
+  font-weight: 800;
+}
+
+.hero-section p {
+  font-size: 1.1rem;
+  opacity: 0.9;
+}
+
+/* ----- Select dropdown ----- */
+.form-select {
+  border-radius: 8px;
+  border: 2px solid #c3dafe;
+  padding: 0.6rem 1rem;
+  font-size: 1rem;
+  transition: border-color 0.2s;
+}
+
+.form-select:focus {
+  border-color: #667eea;
+  box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.25);
+}
+
+/* ----- Buttons ----- */
+.btn-primary {
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  border: none;
+  border-radius: 8px;
+  font-weight: 600;
+  padding: 0.6rem 1.6rem;
+  transition: opacity 0.2s, transform 0.1s;
+}
+
+.btn-primary:hover {
+  opacity: 0.92;
+  transform: translateY(-1px);
+}
+
+.btn-outline-secondary {
+  border-radius: 8px;
+  font-weight: 500;
+}
+
+/* ----- Recommendation cards ----- */
+.recommendation-card {
+  border-left: 4px solid #667eea;
+}
+
+.mutual-badge {
+  background: linear-gradient(135deg, #667eea, #764ba2);
+  color: white;
+  border-radius: 20px;
+  padding: 0.25rem 0.75rem;
+  font-size: 0.82rem;
+  font-weight: 600;
+}
+
+/* ----- Friend chips ----- */
+.friend-chip {
+  display: inline-block;
+  background-color: #e8f4fd;
+  color: #2b6cb0;
+  border-radius: 20px;
+  padding: 0.2rem 0.75rem;
+  font-size: 0.82rem;
+  font-weight: 500;
+  margin: 0.15rem;
+}
+
+/* ----- Interest tags ----- */
+.interest-tag {
+  display: inline-block;
+  background-color: #faf0ff;
+  color: #6b46c1;
+  border: 1px solid #d6bcfa;
+  border-radius: 20px;
+  padding: 0.15rem 0.65rem;
+  font-size: 0.8rem;
+  margin: 0.1rem;
+}
+
+/* ----- Profile header ----- */
+.profile-header {
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  color: white;
+  border-radius: 12px;
+  padding: 1.5rem;
+}
+
+.avatar-circle {
+  width: 64px;
+  height: 64px;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.25);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.8rem;
+  font-weight: 700;
+  color: white;
+  border: 3px solid rgba(255, 255, 255, 0.5);
+  flex-shrink: 0;
+}
+
+/* ----- Graph image ----- */
+.graph-img {
+  border-radius: 12px;
+  width: 100%;
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.1);
+}
+
+/* ----- Empty state ----- */
+.empty-state {
+  text-align: center;
+  padding: 3rem 1rem;
+  color: #718096;
+}
+
+.empty-state .display-1 {
+  font-size: 4rem;
+}
+
+/* ----- Footer ----- */
+footer {
+  background-color: #2d3748;
+  color: #a0aec0;
+  padding: 1.2rem 0;
+  margin-top: 4rem;
+}
+
+footer a {
+  color: #a0aec0;
+  text-decoration: none;
+}
+
+footer a:hover {
+  color: white;
+}
+
+/* ----- Rank badge on recommendations ----- */
+.rank-number {
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, #667eea, #764ba2);
+  color: white;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 700;
+  font-size: 0.95rem;
+  flex-shrink: 0;
+}

@@ -1,0 +1,85 @@
+{% extends "base.html" %}
+{% block title %}How It Works{% endblock %}
+
+{% block content %}
+
+<div class="row justify-content-center">
+  <div class="col-lg-8">
+
+    <h2 class="fw-bold mb-1">
+      <i class="bi bi-info-circle me-2 text-primary"></i>How It Works
+    </h2>
+    <p class="text-muted mb-4">A beginner-friendly explanation of graph-based friend recommendations.</p>
+
+    <!-- Step 1 -->
+    <div class="card mb-3 p-4">
+      <h5 class="fw-bold"><span class="badge bg-primary me-2">1</span>Build the Social Graph</h5>
+      <p>
+        All users and their friendships are stored as an <strong>undirected graph</strong>
+        using the <a href="https://networkx.org/" target="_blank">NetworkX</a> library.
+      </p>
+      <ul class="text-muted small">
+        <li>Each <em>node</em> represents one user.</li>
+        <li>Each <em>edge</em> (line) between two nodes means they are already friends.</li>
+        <li>The friendship is undirected: if Alice knows Bob, Bob knows Alice.</li>
+      </ul>
+    </div>
+
+    <!-- Step 2 -->
+    <div class="card mb-3 p-4">
+      <h5 class="fw-bold"><span class="badge bg-primary me-2">2</span>Find Candidates</h5>
+      <p>
+        For the selected user, the algorithm looks at every other user who is
+        <strong>not yet a direct friend</strong>.
+        These are the "candidates" for a new connection.
+      </p>
+    </div>
+
+    <!-- Step 3 -->
+    <div class="card mb-3 p-4">
+      <h5 class="fw-bold"><span class="badge bg-primary me-2">3</span>Count Mutual Friends</h5>
+      <p>
+        For each candidate, the algorithm counts how many users are friends with
+        <em>both</em> the selected user and the candidate.
+        These shared connections are called <strong>mutual friends</strong>.
+      </p>
+      <div class="bg-light rounded p-3 font-monospace small">
+        mutuals = friends_of(Alice) ∩ friends_of(David)
+      </div>
+      <p class="mt-2 text-muted small">
+        ∩ means intersection — users who appear in <em>both</em> sets.
+      </p>
+    </div>
+
+    <!-- Step 4 -->
+    <div class="card mb-3 p-4">
+      <h5 class="fw-bold"><span class="badge bg-primary me-2">4</span>Rank &amp; Display</h5>
+      <p>
+        Candidates are sorted by their mutual-friend count — highest first.
+        Only users with at least <strong>one mutual friend</strong> appear in the
+        recommendations list.
+        The top 5 are shown.
+      </p>
+    </div>
+
+    <!-- Example -->
+    <div class="card mb-3 p-4 border-start border-4 border-warning">
+      <h5 class="fw-bold"><i class="bi bi-lightbulb text-warning me-2"></i>Example</h5>
+      <p>
+        Suppose <strong>Alice</strong> is friends with Bob and Carol.<br>
+        <strong>David</strong> is also friends with Bob and Carol — but not Alice.<br>
+        David has <strong>2 mutual friends</strong> with Alice, so he ranks at the top
+        of her recommendation list.
+      </p>
+    </div>
+
+    <div class="text-center mt-4">
+      <a href="{{ url_for('index') }}" class="btn btn-primary">
+        <i class="bi bi-arrow-left me-2"></i>Try the app
+      </a>
+    </div>
+
+  </div>
+</div>
+
+{% endblock %}

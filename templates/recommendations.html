@@ -1,0 +1,148 @@
+{% extends "base.html" %}
+{% block title %}Recommendations for {{ profile.name }}{% endblock %}
+
+{% block content %}
+
+<!-- ===== Back button ===== -->
+<div class="mb-3">
+  <a href="{{ url_for('index') }}" class="btn btn-outline-secondary btn-sm">
+    <i class="bi bi-arrow-left me-1"></i>Back to Home
+  </a>
+</div>
+
+<!-- ===== Profile header ===== -->
+<div class="profile-header d-flex align-items-center gap-3 mb-4">
+  <div class="avatar-circle">{{ profile.name[0] }}</div>
+  <div>
+    <h4 class="mb-0 fw-bold">{{ profile.name }}</h4>
+    <small class="opacity-75">Age {{ profile.age }}</small>
+    <div class="mt-1">
+      {% for interest in profile.interests %}
+        <span class="interest-tag"
+              style="background:rgba(255,255,255,0.2);
+                     border-color:rgba(255,255,255,0.4);
+                     color:white;">
+          {{ interest }}
+        </span>
+      {% endfor %}
+    </div>
+  </div>
+</div>
+
+<div class="row g-4">
+
+  <!-- ===== Recommendations column ===== -->
+  <div class="col-lg-6">
+    <h5 class="fw-bold mb-3">
+      <i class="bi bi-person-plus me-2 text-primary"></i>
+      Friend Recommendations
+      <span class="badge bg-primary ms-2">{{ recommendations | length }}</span>
+    </h5>
+
+    {% if recommendations %}
+      {% for rec in recommendations %}
+      <!--
+        Each card shows one recommended user.
+        The `mutual_count` is the key metric from the algorithm.
+        `mutual_names` lists the names of the shared friends.
+      -->
+      <div class="card recommendation-card mb-3 p-3">
+        <div class="d-flex align-items-start gap-3">
+
+          <!-- Rank number -->
+          <div class="rank-number">{{ loop.index }}</div>
+
+          <div class="flex-grow-1">
+            <div class="d-flex justify-content-between align-items-start flex-wrap gap-2">
+              <div>
+                <h6 class="mb-0 fw-bold">{{ rec.name }}</h6>
+                <small class="text-muted">Age {{ rec.age }}</small>
+              </div>
+              <!-- Mutual friends badge -->
+              <span class="mutual-badge">
+                <i class="bi bi-people me-1"></i>
+                {{ rec.mutual_count }}
+                mutual {{ "friend" if rec.mutual_count == 1 else "friends" }}
+              </span>
+            </div>
+
+            <!-- Interests -->
+            <div class="mt-2">
+              {% for interest in rec.interests %}
+                <span class="interest-tag">{{ interest }}</span>
+              {% endfor %}
+            </div>
+
+            <!-- Mutual friends list -->
+            <div class="mt-2">
+              <small class="text-muted fw-semibold">
+                <i class="bi bi-link-45deg me-1"></i>Connected through:
+              </small>
+              <div class="mt-1">
+                {% for name in rec.mutual_names %}
+                  <span class="friend-chip">{{ name }}</span>
+                {% endfor %}
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      {% endfor %}
+
+    {% else %}
+      <!-- Shown when there are no suggestions (everyone is already connected) -->
+      <div class="card empty-state">
+        <div class="display-1">🎉</div>
+        <h5 class="mt-3">{{ profile.name }} already knows everyone!</h5>
+        <p class="text-muted">No new friend suggestions — all paths lead back to existing friends.</p>
+        <a href="{{ url_for('index') }}" class="btn btn-primary mt-2">Try another user</a>
+      </div>
+    {% endif %}
+  </div>
+
+  <!-- ===== Current friends + graph column ===== -->
+  <div class="col-lg-6">
+
+    <!-- Current friends card -->
+    <div class="card p-3 mb-4">
+      <h6 class="fw-bold mb-3">
+        <i class="bi bi-people-fill me-2 text-success"></i>
+        Current Friends
+        <span class="badge bg-success ms-1">{{ friend_info | length }}</span>
+      </h6>
+      <div class="d-flex flex-wrap gap-2">
+        {% for friend in friend_info %}
+        <div class="d-flex align-items-center bg-light rounded-pill px-3 py-1">
+          <span class="fw-semibold me-1">{{ friend.name }}</span>
+          <small class="text-muted">({{ friend.age }})</small>
+        </div>
+        {% endfor %}
+      </div>
+    </div>
+
+    <!-- Network graph visualization -->
+    <div class="card p-3">
+      <h6 class="fw-bold mb-2">
+        <i class="bi bi-diagram-3 me-2 text-primary"></i>
+        Social Network Graph
+      </h6>
+      <p class="text-muted small mb-3">
+        <span style="color:#e74c3c;">●</span> You &nbsp;
+        <span style="color:#2ecc71;">●</span> Your friends &nbsp;
+        <span style="color:#3498db;">●</span> Others
+      </p>
+      <!--
+        The /graph/<user_id> route renders a PNG image server-side using
+        Matplotlib + NetworkX and returns it as a binary HTTP response.
+      -->
+      <img
+        src="{{ url_for('graph_image', user_id=selected_id) }}"
+        alt="Social network graph for {{ profile.name }}"
+        class="graph-img"
+        loading="lazy"
+      />
+    </div>
+
+  </div>
+</div>
+{% endblock %}
